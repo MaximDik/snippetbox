@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"net/http"
+
+	"github.com/MaximDik/snippetbox/cmd/web/handlers"
 )
 
 func main() {
