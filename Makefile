@@ -1,10 +1,10 @@
 .PHONY: build
 
 build:
-	go build -v ./cmd/web/main.go
+	go build -v ./cmd/web/main.go 
 
 start:
-	./main
+	./main -addr="127.0.0.1:9999"
 
 
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 
@@ -8,12 +9,20 @@ import (
 )
 
 func main() {
+
+	addr := flag.String("addr", ":4000", "Сетевой фдрес HTTP")
+
+	flag.Parse()
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", handlers.Home)
 	mux.HandleFunc("/snippet", handlers.ShowSnippet)
 	mux.HandleFunc("/snippet/create", handlers.CreateSnippet)
 
-	log.Println("server is listening...")
-	err := http.ListenAndServe(":8080", mux)
+	fileServer := http.FileServer(http.Dir("./ui/static"))
+	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
+
+	log.Printf("server is listening on %s", *addr)
+	err := http.ListenAndServe(*addr, mux)
 	log.Fatal(err)
 }
